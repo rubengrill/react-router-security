@@ -1,6 +1,6 @@
 {
   "name": "react-router-security",
-  "version": "0.0.0",
+  "version": "0.1.0",
   "description": "Secure routes of React Router",
   "files": [
     "*.md",
