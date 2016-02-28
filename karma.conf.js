@@ -10,7 +10,6 @@ module.exports = function (config) {
     reporters: [ 'mocha' ],
 
     files: [
-      'node_modules/es5-shim/es5-shim.js',
       'node_modules/babel-core/browser-polyfill.min.js',
       'tests.webpack.js',
     ],

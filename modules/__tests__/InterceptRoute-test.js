@@ -13,7 +13,7 @@ describe('InterceptRoute', () => {
       onEnterLevel2: 0,
     }
 
-    function intercept(next, nextState, replaceState, callback) {
+    function intercept(next, nextState, replace, callback) {
       invocations.intercept++
 
       if (this.path === '/') {
@@ -29,7 +29,7 @@ describe('InterceptRoute', () => {
         assert.fail()
       }
 
-      next(nextState, replaceState, callback)
+      next(nextState, replace, callback)
     }
 
     function onEnter() {
@@ -38,7 +38,7 @@ describe('InterceptRoute', () => {
       assert.equal(this.path, '/')
     }
 
-    function onEnterLevel2(nextState, replaceState, callback) {
+    function onEnterLevel2(nextState, replace, callback) {
       invocations.onEnterLevel2++
 
       assert.equal(this.path, 'level-2')

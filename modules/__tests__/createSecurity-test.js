@@ -83,7 +83,7 @@ describe('createSecurity', () => {
 
       assert(!error)
       assert.equal(redirectLocation.pathname, '/access-denied')
-      assert.deepEqual(redirectLocation.state, {})
+      assert(redirectLocation.state === null)
       assert(!renderProps)
 
       assert.deepEqual(ctx, {
@@ -156,7 +156,7 @@ describe('createSecurity', () => {
 
       assert(!error)
       assert.equal(redirectLocation.pathname, '/access-denied')
-      assert.deepEqual(redirectLocation.state, {})
+      assert(redirectLocation.state === null)
       assert(!renderProps)
 
       assert.deepEqual(ctx, {
@@ -780,8 +780,8 @@ describe('createSecurity', () => {
   })
 
   it('should not redirect to logoutSuccessPathname when logout route is accessed and onEnter redirects to another route', done => {
-    const onEnter = (nextState, replaceState) => {
-      replaceState({}, '/foobar')
+    const onEnter = (nextState, replace) => {
+      replace('/foobar')
     }
     const store = createStore(combineReducers({ securityContext }))
     const security = createSecurity({ store, logoutSuccessPathname: '/' })

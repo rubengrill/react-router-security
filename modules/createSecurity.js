@@ -111,7 +111,7 @@ export default function createSecurity({
     })
   }
 
-  function secureRoutes(next, nextState, replaceState, callback) {
+  function secureRoutes(next, nextState, replace, callback) {
     const { routes } = nextState
 
     // We check access for the most specific route that has the access property set.
@@ -197,11 +197,11 @@ export default function createSecurity({
       authenticationPromise.then(
         authentication => {
           if (!accessDecisionManager(authentication, access)) {
-            replaceState({}, accessDeniedPathname)
+            replace(accessDeniedPathname)
             callback()
             return
           }
-          next(nextState, replaceState, callback)
+          next(nextState, replace, callback)
         },
         error => {
           if (error) {
@@ -209,7 +209,10 @@ export default function createSecurity({
             return
           }
 
-          replaceState({ [nextPathnameProperty]: nextState.location.pathname }, loginPathname)
+          replace({
+            pathname: loginPathname,
+            state: { [nextPathnameProperty]: nextState.location.pathname },
+          })
           callback()
         }
       )
@@ -218,20 +221,20 @@ export default function createSecurity({
     }
 
     if (nextState.location.pathname === logoutPathname && this === nextState.routes[nextState.routes.length - 1]) {
-      let _replaceStateCalled = false
-      const _replaceState = (state, pathname, query) => {
-        _replaceStateCalled = true
-        replaceState(state, pathname, query)
+      let _replaceCalled = false
+      const _replace = location => {
+        _replaceCalled = true
+        replace(location)
       }
 
-      next(nextState, _replaceState, onEnterError => {
+      next(nextState, _replace, onEnterError => {
         logout()
           .then(() => {
             if (onEnterError) {
               throw onEnterError
             }
-            if (logoutSuccessPathname && !_replaceStateCalled) {
-              replaceState({}, logoutSuccessPathname)
+            if (logoutSuccessPathname && !_replaceCalled) {
+              replace(logoutSuccessPathname)
             }
             callback()
           })
@@ -242,7 +245,7 @@ export default function createSecurity({
       return
     }
 
-    next(nextState, replaceState, callback)
+    next(nextState, replace, callback)
   }
 
   return {

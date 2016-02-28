@@ -17,8 +17,8 @@ function interceptRoute(route, intercept) {
   const onEnter = route.onEnter || (() => {})
   const next = createEnterHook(onEnter, route)
 
-  route.onEnter = (nextState, replaceState, callback) => {
-    intercept.call(route, next, nextState, replaceState, callback)
+  route.onEnter = (nextState, replace, callback) => {
+    intercept.call(route, next, nextState, replace, callback)
   }
 
   if (route.childRoutes) {
