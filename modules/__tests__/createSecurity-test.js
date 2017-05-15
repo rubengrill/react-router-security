@@ -83,7 +83,7 @@ describe('createSecurity', () => {
 
       assert(!error)
       assert.equal(redirectLocation.pathname, '/access-denied')
-      assert(redirectLocation.state === null)
+      assert(redirectLocation.state === undefined)
       assert(!renderProps)
 
       assert.deepEqual(ctx, {
@@ -156,7 +156,7 @@ describe('createSecurity', () => {
 
       assert(!error)
       assert.equal(redirectLocation.pathname, '/access-denied')
-      assert(redirectLocation.state === null)
+      assert(redirectLocation.state === undefined)
       assert(!renderProps)
 
       assert.deepEqual(ctx, {
